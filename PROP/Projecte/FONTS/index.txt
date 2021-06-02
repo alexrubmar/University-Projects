@@ -1,0 +1,5 @@
+Aquest directori conte tot el codi del Projecte, amb les 3 capes identificades. 
+
+A la capa de domini tenim totes les classes del diagrama de classes, excepte les classes de database, que contenen metodes per accedir a la ruta dels arxius per utilitzar el programa, que es troben a la carpeta de Data. 
+
+A la capa de presentacio es troben totes les vistes del programa, les quals es comuniquen amb les classes de la capa de domini per a poder anar mostrant tots els progressos d'aquest.

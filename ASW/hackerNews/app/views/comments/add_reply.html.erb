@@ -1,0 +1,114 @@
+<head>
+    <title>Hacker News</title>
+</head>
+
+<body>
+<center>
+    <table bgcolor="#f6f6ef" border="0" cellpadding="0" cellspacing="0" width="85%">
+        <tbody>
+        <tr>
+            <td bgcolor="ff6600">
+                <table style="padding:2px" border="0" cellpadding="0" cellspacing="0" width="100%" id="hnmain">
+                    <tbody>
+                    <tr>
+                        <td style="width:18px;padding-right:4px">
+                            <a style="text-decoration:none;" href="/"><img src="https://news.ycombinator.com/y18.gif"></a>
+                        </td>
+                        <td class="header">
+                            <font size="4"> <b><a style="text-decoration:none;" href="/"><font color="black">Hacker News</a></b></font>
+                            <font size="3"> 
+                                <a style="text-decoration:none;" href="/posts/index_new"><font color="black">new</font></a><font color="black"> | 
+                                <% if current_user %>
+                                    <a style="text-decoration:none;" href="/users/<%=current_user.id %>/comments"><font color="black">threads</a> |
+                                <% else %>
+                                    <a style="text-decoration:none;" href="/users/new"><font color="black">threads</a> |
+                                <% end %>
+                                <a style="text-decoration:none;" href="/posts/index_ask"><font color="black">ask</a> | <a style="text-decoration:none;" href="/posts/new"><font color="black">submit</a>
+                            </font>
+                        </td>
+                        <td>
+                            <font size="3">
+                                <div align="right">
+                                    <% if current_user %>
+                                    Signed in as <strong>
+                                    <%= link_to current_user.name, "/users/#{current_user.id}", id: "my_profile" %>
+                                </strong> |
+                                    <%= link_to "Sign out", signout_path, id: "sign_out" %>
+                                    <% else %>
+                                    <%= link_to "Log in", "/auth/google_oauth2", id: "sign_in", method: :post %> 
+                                    <% end %>
+                                </div>
+                            </font>
+                        </td>
+                        <td class="spacer" style="width:10px"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr style="height:10px"></tr>
+        <tr>
+          <td>
+            <table>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td>
+                      
+                  </td>
+                  <td class="default"><div style="margin-top:2px; margin-bottom:-10px;">
+                    <span class="comhead">
+                        <% if (current_user != nil) && (current_user.liked? @comment) %>&nbsp;&nbsp;
+                      <% else %><%= link_to '▲', like_comment_path(@comment.id), method: :get%><% end %>
+                    <a href="/users/<%= @comment.user_id %>" class="hnuser"><%=User.find(@comment.user_id).name %></a> 
+                    <% time = (Time.now.to_i - @comment.created_at.to_i) %>
+                                         
+                        <% if time < 3600 %>
+                            <span class="age"><a href=""><%= (time/60).round %> minutes ago</a></span>  
+                        <% end %>
+                    
+                        <% if time >= 3600 && time < 3600*24 %>
+                             <span class="age"><a href=""><%= (time/3600).round %> hours ago</a></span>   
+                        <% end %>
+                        
+                        <% if time >= 3600*24 %>
+                            <span class="age"><a href=""><%= (time/(3600*24)).round %> days ago</a></span>
+                        <% end %> 
+                        
+                        <% if (current_user != nil) && (current_user.liked? @comment) %>
+                            <%= link_to '| unvote |', unlike_comment_path(@comment.id), method: :get%>
+                        <%end%>
+
+                    <span class="storyon">
+                    on: <a href="/posts/<%= @post.id %>"><%= @post.title%></a>
+                    </span>
+                    </span>
+                    </div>
+                    <br>
+                    <span class="commtext c00"><%= @comment.body%></span>
+                  </td>
+                </tr>
+                <tr style="height:10px"></tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td>
+                    <form method="post" action="/comments">
+                      <input type="hidden" name="parent_id" value=<%=@comment.id%>>
+                      <input type="hidden" name="post_id" value=<%=@post.id%>>
+                      
+                      <textarea name="body" rows ="6" cols ="60"></textarea>
+                      <br>
+                      <br>
+                      <input type="submit" value="reply">
+                    </form>
+                  </td>
+                
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+</center>
+</body>

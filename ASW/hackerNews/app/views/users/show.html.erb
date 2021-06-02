@@ -1,0 +1,153 @@
+<head>
+    <title>Hacker News</title>
+</head>
+
+<body>
+<center>
+    <table bgcolor="#f6f6ef" border="0" cellpadding="0" cellspacing="0" width="85%">
+        <tbody>
+        <tr>
+            <td bgcolor="ff6600">
+                <table style="padding:2px" border="0" cellpadding="0" cellspacing="0" width="100%" id="hnmain">
+                    <tbody>
+                    <tr>
+                        <td style="width:18px;padding-right:4px">
+                            <a style="text-decoration:none;" href="/"><img src="https://news.ycombinator.com/y18.gif"></a>
+                        </td>
+                        <td class="header">
+                            <font size="4"> <b><a style="text-decoration:none;" href="/"><font color="black">Hacker News</a></b></font>
+                            <font size="3"> 
+                                <a style="text-decoration:none;" href="/posts/index_new"><font color="black">new</font></a><font color="black"> | 
+                                <% if current_user %>
+                                    <a style="text-decoration:none;" href="/users/<%=current_user.id %>/comments"><font color="black">threads</a> |
+                                <% else %>
+                                    <a style="text-decoration:none;" href="/users/new"><font color="black">threads</a> |
+                                <% end %>
+                                <a style="text-decoration:none;" href="/posts/index_ask"><font color="black">ask</a> | <a style="text-decoration:none;" href="/posts/new"><font color="black">submit</a>
+                            </font>
+                        </td>
+                        <td>
+                            <font size="3">
+                                <div align="right">
+                                    <% if current_user %>
+                                    Signed in as <strong>
+                                    <%= link_to current_user.name, "/users/#{current_user.id}", id: "my_profile" %>
+                                </strong> (<%= current_user.karma %>) |
+                                    <%= link_to "Sign out", signout_path, id: "sign_out" %>
+                                    <% else %>
+                                    <%= link_to "Log in", "/auth/google_oauth2", id: "sign_in", method: :post %>
+                                    <% end %>
+                                </div>
+                            </font>
+                        </td>
+                        <td class="spacer" style="width:10px"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr style="height:10px"></tr>
+        <tr>
+          <td>
+            <% if (current_user == nil || current_user.id != @user.id) %>
+              <table>
+                <tbody>
+                  <tr>
+                    <td valign ="top">user: </td>
+                    <td valign ="top"><%=@user.name%></td>
+                  </tr>
+                  <tr>
+                    <td valign ="top">created: </td>
+                    <td valign ="top"><%=@user.created_at%></td>
+                  </tr>
+                  <tr>
+                    <td valign ="top">karma: </td>
+                    <td valign ="top"><%=@user.karma%></td>
+                  <tr>
+                    <td valign ="top">about:</td>
+                    <td valign ="top"><%=@user.about%></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td valign ="top">
+                      <a href='/users/<%=@user.id%>/submissions'>submissions</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td valign ="top">
+                      <a href='/users/<%=@user.id%>/comments'>comments</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            <%else%>
+              <form method="post" data-method="put" action="/users/<%=current_user.id%>">
+             
+                <input name="_method" type="hidden" value="put" />
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>user: </td>
+                      <td>
+                        <a href="/users/<%=@user.id%>"><%=@user.name%></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>created: </td>
+                      <td>
+                        <a href="/users/<%=@user.id%>"><%=@user.created_at%></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>karma: </td>
+                      <td>
+                        <a href="/users/<%=@user.id%>"><%=@user.karma%></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>about: </td>
+                      <td>
+                        <textarea cols="60" rows="5" name="about"><%=@user.about%></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>email: </td>
+                      <td>
+                        <input size="60" name="email" value=<%=@user.email%>>
+                      </td>
+                    </tr>
+                    
+                  <tr>
+                    <td></td>
+                    <td valign ="top">
+                      <a href='/users/<%=@user.id%>/submissions'>submissions</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td valign ="top">
+                      <a href='/users/<%=@user.id%>/comments'>comments</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td valign ="top">
+                      <a href='/users/<%=@user.id%>/upvoted_submissions'>upvoted submissions</a>
+                      /
+                      <a href='/users/<%=@user.id%>/upvoted_comments'>comments</a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <% if current_user.id == @user.id %>
+                <input type="submit" value="update" formmethod="post">
+                <% end %>
+              </form>
+            <%end%>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+</center>
+</body>

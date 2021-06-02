@@ -1,0 +1,1 @@
+En aquest directori estan tots els fitxers de la documentacio de la tercera entrega. Hi ha tant el diagrama UML complet com el manual d'usuari, com la resta de documentacio, ja sigui explicacio de casos d'us, classes i vistes com la relación de classes implementada per cadascu.

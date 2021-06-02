@@ -1,0 +1,122 @@
+<head>
+    <title><%= @comment.content %> | Hacker News</title>
+</head>
+
+<body>
+<center>
+    <table bgcolor="#f6f6ef" border="0" cellpadding="0" cellspacing="0" width="85%">
+        <tbody>
+        <tr>
+            <td bgcolor="ff6600">
+                <table style="padding:2px" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                    <tr>
+                        <td style="width:18px;padding-right:4px">
+                            <a style="text-decoration:none;" href="/"><img src="<%= asset_path( 'y18.gif' ) %>"></a>
+                        </td>
+                        <td class="header">
+                            <font size="4"> <b><a style="text-decoration:none;" href="/">Hacker News</a></b></font>
+                            <font size="3"> 
+                                <a style="text-decoration:none;" href="/posts/index_new">new</a> | 
+                                <% if current_user %>
+                                    <a style="text-decoration:none;" href="/users/<%=current_user.id %>/comments"><font color="black">threads</a> |
+                                <% else %>
+                                    <a style="text-decoration:none;" href="/users/new"><font color="black">threads</a> |
+                                <% end %>
+                                <a style="text-decoration:none;" href="/ask">ask</a> | <a style="text-decoration:none;" href="/submissions/new">submit</a>
+                            </font>
+                        </td>
+                        <td>
+                            <font size="3">
+                                <div align="right">
+                                    <% if current_user %>
+                                    Signed in as <strong>
+                                    <%= link_to current_user.name, "/users/#{current_user.id}", id: "my_profile" %>
+                                </strong> (<%= current_user.karma %>) |
+                                    <%= link_to "Sign out", signout_path, id: "sign_out" %>
+                                    <% else %>
+                                    <%= link_to "Log in", "/auth/google_oauth2", id: "sign_in" %>
+                                    <% end %>
+                                </div>
+                            </font>
+                        </td>
+                        <td class="spacer" style="width:10px"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr style="height:10px"></tr>
+        <tr>
+          <td>
+            <div style="color:grey;margin-left:10px">
+                <a style="text-decoration:none;" href="/users/<%= @comment.user.id %>"><%= @comment.user.name %></a>
+                
+            <% time = (Time.now() - @comment.created_at) %>
+                                    
+            <% if time < 3600 %>
+                <%= (time/60).round %> minutes ago | 
+            <% end %>
+        
+            <% if time >= 3600 && time < 3600*24 %>
+                <%= (time/3600).round %> hours ago | 
+            <% end %>
+            
+            <% if time >= 3600*24 %>
+                <%= (time/(3600*24)).round %> days ago | 
+            <% end %>
+            
+            </div>
+
+            <div style="margin-left:20px">
+                <%= @comment.content %>
+                    <form action="/replies" method="POST" id="reply_content_form">
+                        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        <% if current_user %>
+                            <input type="hidden" name="reply[user_id]" value=<%= current_user.id %>>
+                        <% else %>
+                            <input type="hidden" name="reply[user_id]" value=<%= %>>
+                        <% end %>
+                        <input type="hidden" name="reply[comment_id]" value=<%=@comment.id %>>
+                        <textarea name="reply[content]" value="" form="reply_content_form" style="min-width:500px;min-height:100px"></textarea>
+                        <br>
+                        <input type="submit" value="reply">
+                    </form>
+            </div>
+            
+            <br>
+            
+             <p style="margin-left:20px" id="notice"><%= notice %></p>
+            <br>
+            
+            <% @replies.each do |reply| %>
+                <table style="margin-left:10px" >
+                  <tr>
+                    <td><a style="text-decoration:none;" href="/users/<%= reply.user.id %>"><%= reply.user.name %></a>
+
+                    <% time = (Time.now() - reply.created_at) %>
+                                    
+                    <% if time < 3600 %>
+                        <a style="text-decoration:none;" href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/60).round %> minutes ago</a> | 
+                    <% end %>
+                
+                    <% if time >= 3600 && time < 3600*24 %>
+                        <a style="text-decoration:none;" href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/3600).round %> hours ago</a> | 
+                    <% end %>
+                    
+                    <% if time >= 3600*24 %>
+                        <a style="text-decoration:none;" href="/comments/<%= reply.comment.id %>/new_reply"><%= (time/(3600*24)).round %> days ago</a> | 
+                    <% end %>
+                      
+                  </tr>
+                  <tr>
+                    <td style="color:grey;"> <%= reply.content %></td>
+                  </tr>
+                </table>
+                <br>
+            <%end%>
+          </td>
+        </tr>
+    </table>
+  </center>
+</body>

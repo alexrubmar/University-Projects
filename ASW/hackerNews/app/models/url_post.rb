@@ -1,0 +1,3 @@
+class UrlPost < Post
+ 
+end

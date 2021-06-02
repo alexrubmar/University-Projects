@@ -1,0 +1,3 @@
+class AskPost < Post
+  
+end

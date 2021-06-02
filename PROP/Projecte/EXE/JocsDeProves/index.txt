@@ -1,0 +1,29 @@
+En aquest directori hi ha les diferents carpetes on es guarden els fitxers per provar el programa:
+
+- DadesPerTest: Conte varis fitxers per provar el test unitari de la classe DadesModificades.
+
+-DadesPreprocessadesTest: Conte els fitxer que preprocessa el programa, aqui es guardaran tots.
+
+-ReglesD'Associacio: Conte tots els fitxer amb les regles d'associacio que obtingui el algorisme de cada fitxer que anem proporcionant al programa.
+
+-ReglesValidades: Conte tots els fitxer amb les regles d'associacio validades que obtingui el proceso de validacio sobre les regles extretes per l'algorisme de cada fitxer que anem proporcionant al programa.
+
+
+-FitxersInicials: Conte tots els fitxers inicials que el programa pot tractar per preprocessar-los.
+
+Per a poder executar el programa, s'ha de saber el tipus de cada atribut del fitxerInicial que s'escull al marcar l'opcio 1, aquests son els tipus dels atributs dels fitxersInicials de proves:
+
+Fitxer amb pocs registres:
+-   iris(sepallength: double, sepalwidth: double, petallength: double, petalwidth:     double,class: String). 
+
+
+Fitxer amb molts registres:
+-    Hotel(hotel: String, is_canceled: bool, lead_time: int, arrival_date_year: int, arrival_date_month: String, arrival_date_week_number: String, arrival_date_day_of_month: String, stays_in_weekend_nights: int, stays_in_week_nights: int, adults: int, children: String, babies: String, meal: String, country: String, market_segment: String, distribution_channel: String, is_repeated_guest: bool, previous_cancellations: int, previous_bookings_not_canceled: String, reserved_room_type: String)
+
+
+Fitxer encara mes gran que hotel:
+-    Temperatura(dt_iso: String, city_name: String, temp: double, temp-min: double, temp_max: double, pressure: int, humidity: int, wind_speed: int, wind_deg: int, rain_1h: double, rain_3h: double, snow_3h: double, clouds_all: int, weather_id: int, weather_main: String, weather_description: String, weather_icon:String). 
+
+
+
+Tant en els fitxers de les regles d'associacio com els fitxers amb les dades preprocessades, l'usuari ha d'indicar quin nom tindra en l'execució del programa.
