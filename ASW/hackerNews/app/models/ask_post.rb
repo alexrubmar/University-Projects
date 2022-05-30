@@ -1,3 +1,0 @@
-class AskPost < Post
-  
-end

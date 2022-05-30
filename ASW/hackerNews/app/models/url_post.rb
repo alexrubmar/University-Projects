@@ -1,3 +1,0 @@
-class UrlPost < Post
- 
-end
